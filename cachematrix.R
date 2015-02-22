@@ -5,7 +5,7 @@
 ############################################################
 
 ############################################################
-#The functions in this script will calulate and cache the
+#The functions in this script will calculate and cache the
 #inverse of a matrix if it was calculated before and the 
 #matrix has not change.
 ############################################################
@@ -23,12 +23,14 @@ makeCacheMatrix <- function(x = matrix()) {
         }
         
         get <- function() x
+        
         setinverse <- function(solve) inv <<- solve
+        
         getinverse <- function() inv
         
         list(set=set, get=get,
              setinverse=setinverse,
-             getinverse,getinverse)
+             getinverse=getinverse)
 }
 
 ## This function computes the inverse of the special "matrix" 
@@ -37,14 +39,15 @@ makeCacheMatrix <- function(x = matrix()) {
 ##cachesolve should retrieve the inverse from the cache.
 
 cacheSolve <- function(x, ...) {
-       inv <- inv$getinverse()
-       
-       if(!is.null(inv)){
-               message("getting cache data")
-               return(inv)
-       }
-       inv <- solve(matrix, ...)
-       x$setinverse(inv)
-       inv
+        inv <- x$getinverse()
+        
+        if(!is.null(inv)){
+                message("getting cache data")
+                inv
+        }
+        myMatrix <- x$get()
+        inv <- solve(myMatrix, ...)
+        x$setinverse(inv)
+        inv
 }
 
