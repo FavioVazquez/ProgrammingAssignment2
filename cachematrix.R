@@ -7,9 +7,7 @@
 ############################################################
 #The functions in this script will calulate and cache the
 #inverse of a matrix if it was calculated before and the 
-#matrix has not change. In this script I will assume that
-#there is some data in the session that would be affected
-#by this functions.
+#matrix has not change.
 ############################################################
 
 ## This function creates a special "matrix" object that can cache 
@@ -32,9 +30,20 @@ makeCacheMatrix <- function(x = matrix()) {
              getinverse,getinverse)
 }
 
-
-## Write a short comment describing this function
+## This function computes the inverse of the special "matrix" 
+##returned by makeCacheMatrix above. If the inverse has already
+##been calculated (and the matrix has not changed), then the 
+##cachesolve should retrieve the inverse from the cache.
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+       inv <- inv$getinverse()
+       
+       if(!is.null(inv)){
+               message("getting cache data")
+               return(inv)
+       }
+       matrix <- x$get()
+       inv <- solve(matrix, ...)
+       x$setinverse(inv)
+       inv
 }
